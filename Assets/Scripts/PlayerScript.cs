@@ -26,25 +26,21 @@ public class PlayerScript : MonoBehaviour
     {
         xSpeed = rb.velocity.x;
 
-        if (Input.GetKeyDown(KeyCode.O) && !quickStep)
-        {
-            quickStep = true;
-            quickStepZ = rb.position.z + 2;
-        }
-        else if (Input.GetKeyDown(KeyCode.P) && !quickStep)
-        {
-            quickStep = true;
-            quickStepZ = rb.position.z - 2;
-        }
-        Debug.Log(quickStep);
+        QuickStepInput();
 
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed / 2)
-            trail.enabled = true;
-        else if (xSpeed == 0)
-            trail.enabled = false;
+        Trail();
     }
 
     void FixedUpdate()
+    {
+        Movement();
+        if (quickStep)
+            QuickStep();
+    }
+
+
+
+    private void Movement()
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D))
         {
@@ -84,8 +80,20 @@ public class PlayerScript : MonoBehaviour
             v.x = 0;
             rb.velocity = v;
         }
+    }
 
-        QuickStep();
+    private void QuickStepInput()
+    {
+        if (Input.GetKeyDown(KeyCode.O) && !quickStep)
+        {
+            quickStep = true;
+            quickStepZ = rb.position.z + 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.P) && !quickStep)
+        {
+            quickStep = true;
+            quickStepZ = rb.position.z - 2;
+        }
     }
 
     private void QuickStep()
@@ -100,5 +108,13 @@ public class PlayerScript : MonoBehaviour
                 quickStep = false;
             }
         }
+    }
+
+    private void Trail()
+    {
+        if (Mathf.Abs(rb.velocity.x) > (maxSpeed * 0.75))
+            trail.enabled = true;
+        else if (xSpeed == 0)
+            trail.enabled = false;
     }
 }
