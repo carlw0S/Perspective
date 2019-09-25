@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -322,11 +322,11 @@ GameObject:
   - component: {fileID: 1089307566}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1089307566
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 1474948440}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -614,7 +614,7 @@ Transform:
   m_GameObject: {fileID: 1474948439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 400, y: 1, z: 1}
+  m_LocalScale: {x: 400, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -726,11 +726,11 @@ GameObject:
   - component: {fileID: 2025597602}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &2025597602
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -910,10 +910,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &2131442528
 MonoBehaviour:
@@ -931,3 +931,9 @@ MonoBehaviour:
   decceleration: 0.9
   turnAroundAcceleration: 20
   maxSpeed: 25
+  quickStepDistance: 2
+  quickStepLerpInterpolant: 0.25
+  trailActivation: 0.75
+  baseJumpSpeed: 6.5
+  jumpReleaseDecceleration: 0.75
+  shortJumpFrameDuration: 5
