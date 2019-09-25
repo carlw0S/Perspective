@@ -13,7 +13,7 @@ public class PlayerScript : MonoBehaviour
     public float trailActivation = 0.75f;       // Percentage of maxSpeed that marks when the trail will show.
     public float baseJumpSpeed = 6.5f;
     public float jumpReleaseDecceleration = 0.75f;
-    public int shortJumpFrameDuration = 12;
+    public int shortJumpFrameDuration = 4;
     private int jumpFrameCounter = 0;
 
     private Rigidbody rb;
@@ -120,6 +120,7 @@ public class PlayerScript : MonoBehaviour
 
     private void JumpInput()
     {
+        jumpFrameCounter++;
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
             rb.AddForce(Vector3.up * baseJumpSpeed, ForceMode.VelocityChange);
@@ -128,12 +129,11 @@ public class PlayerScript : MonoBehaviour
             jumping = true;
             jumpFrameCounter = 0;
         }
-        jumpFrameCounter++;
     }
 
     private void Jump()
     {
-        if (!Input.GetKey(KeyCode.Space) && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)    // Salto con distancia mínima?
+        if (!Input.GetKey(KeyCode.Space) && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)    // The jump has a minimum duration of x frames
         {
             Vector3 v = speed;
             v.y *= jumpReleaseDecceleration;
