@@ -8,8 +8,10 @@ public class PlayerScript : MonoBehaviour
     public float decceleration = 0.9f;
     public float turnAroundAcceleration = 20.0f;
     public float maxSpeed = 25.0f;
+    public float lowSpeedThreshold = 0.001f;
     public float quickStepDistance = 2.0f;
     public float quickStepLerpInterpolant = 0.25f;
+    public float quickStepSnapThreshold = 0.01f;
     public float trailActivation = 0.75f;       // Percentage of maxSpeed that marks when the trail will show.
     public float baseJumpSpeed = 6.5f;
     public float jumpReleaseDecceleration = 0.75f;
@@ -25,12 +27,14 @@ public class PlayerScript : MonoBehaviour
     private float quickStepZ;           // Destination in the Z axis of the current quickstep.
     private bool jumping = false;
     private bool onGround = true;
+    private Vector3 initialPos;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         trail = GetComponentInChildren<TrailRenderer>();
         trail.enabled = false;
+        initialPos = rb.position;
     }
 
     void Update()
@@ -43,6 +47,13 @@ public class PlayerScript : MonoBehaviour
         QuickStepInput();
 
         Trail();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // Reset
+            rb.velocity = Vector3.zero;
+            rb.position = initialPos;
+        }
     }
 
     void FixedUpdate()
@@ -104,13 +115,13 @@ public class PlayerScript : MonoBehaviour
                 rb.velocity = v;
             }
         }
-        else if (Mathf.Abs(xSpeed) > 0.01f)     // Decceleration when no input
+        else if (Mathf.Abs(xSpeed) > lowSpeedThreshold)     // Decceleration when no input
         {
             Vector3 v = speed;
             v.x *= decceleration;
             rb.velocity = v;
         }
-        else if (xSpeed != 0)       // Manually set speeds lower than 0.01 to 0 (it keeps getting lower but not null otherwise)
+        else if (xSpeed != 0)       // Manually set speeds lower than lowSpeedThreshold to 0 (otherwise, it keeps getting lower, but not null)
         {
             Vector3 v = speed;
             v.x = 0;
@@ -157,7 +168,7 @@ public class PlayerScript : MonoBehaviour
 
     private void QuickStep()
     {
-        if (Mathf.Abs(rb.position.z - quickStepZ) > 0.1f)
+        if (Mathf.Abs(rb.position.z - quickStepZ) > quickStepSnapThreshold)
             rb.position = Vector3.Lerp(rb.position, new Vector3(rb.position.x, rb.position.y, quickStepZ), quickStepLerpInterpolant);
         else
         {   // When close to the destination of the quickstep, the player will snap into place

@@ -931,8 +931,10 @@ MonoBehaviour:
   decceleration: 0.9
   turnAroundAcceleration: 20
   maxSpeed: 25
+  lowSpeedThreshold: 0.001
   quickStepDistance: 2
   quickStepLerpInterpolant: 0.25
+  quickStepSnapThreshold: 0.01
   trailActivation: 0.75
   baseJumpSpeed: 6.5
   jumpReleaseDecceleration: 0.75
