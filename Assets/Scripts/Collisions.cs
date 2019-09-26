@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collision : MonoBehaviour
+public class Collisions : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
