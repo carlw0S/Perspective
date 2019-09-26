@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    [Header("Stats")]
     public float acceleration = 10.0f;
     public float decceleration = 0.9f;
     public float turnAroundAcceleration = 20.0f;
@@ -58,7 +59,7 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
+        Run();
         Jump();
         if (quickStep)
             QuickStep();
@@ -87,7 +88,7 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    private void Movement()
+    private void Run()
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D))
         {
