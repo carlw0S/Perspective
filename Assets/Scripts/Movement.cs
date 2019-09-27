@@ -35,16 +35,17 @@ public class Movement : MonoBehaviour
 
 
 
-    // Initial setup
-    private Rigidbody rb;
-    private Collisions coll;
-    private Vector3 initialPos;
-
-
     [Header("Handy values")]    // These could be private
     public Vector3 speed;
     public float xSpeed;
     public float ySpeed;
+
+
+
+    // Initial setup
+    private Rigidbody rb;
+    private Collisions coll;
+    private Vector3 initialPos;
 
 
 
@@ -125,9 +126,10 @@ public class Movement : MonoBehaviour
             jump = false;
             jumpFrameCounter = 0;
             rb.AddForce(Vector3.up * baseJumpSpeed, ForceMode.VelocityChange);
+            coll.onGround = false;      // I wish I didn't have to do this, but OnCollisionExit seems to be too slow...
             jumping = true;
         }
-        // The jump has a minimum duration of x frames (short jump)
+        // The jump has a minimum duration of "shortJumpFrameDuration" frames
         else if (!Input.GetKey(KeyCode.Space) && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)
         {
             Vector3 v = speed;
@@ -198,7 +200,7 @@ public class Movement : MonoBehaviour
             v.x *= runDecceleration;
             rb.velocity = v;
         }
-        else if (xSpeed != 0)       // Manually set speeds lower than stopThreshold to 0 (otherwise, it keeps getting lower, but not null)
+        else if (xSpeed != 0)       // Manually set speeds lower than "stopThreshold" to 0 (otherwise, it keeps getting lower, but not null)
         {
             Vector3 v = speed;
             v.x = 0;
