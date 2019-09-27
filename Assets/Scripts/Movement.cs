@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
     public bool jump = false;
     public bool jumping = false;
     public bool quickStepping = false;
+    public bool airQuickStepped = false;
 
 
 
@@ -78,10 +79,7 @@ public class Movement : MonoBehaviour
 
         Run();
         Jump();
-        if (quickStepping)
-        {
-            QuickStep();
-        }
+        QuickStep();
     }
 
 
@@ -104,13 +102,15 @@ public class Movement : MonoBehaviour
 
     private void QuickStepInput(float dist)
     {
-        if (Input.GetKeyDown(KeyCode.O) && !quickStepping)
+        if (Input.GetKeyDown(KeyCode.O) && !quickStepping && !airQuickStepped)
         {
+            airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z + dist;
         }
-        else if (Input.GetKeyDown(KeyCode.P) && !quickStepping)
+        else if (Input.GetKeyDown(KeyCode.P) && !quickStepping && !airQuickStepped)
         {
+            airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z - dist;
         }
@@ -144,16 +144,24 @@ public class Movement : MonoBehaviour
 
     private void QuickStep()
     {
-        if (Mathf.Abs(rb.position.z - quickStepZdestination) > quickStepSnapThreshold)
-        {   
-            // Gradually step to a side
-            rb.position = Vector3.Lerp(rb.position, new Vector3(rb.position.x, rb.position.y, quickStepZdestination), quickStepLerpInterpolant);
+        if (quickStepping)
+        {
+            if (Mathf.Abs(rb.position.z - quickStepZdestination) > quickStepSnapThreshold)
+            {   
+                // Gradually step to a side
+                rb.position = Vector3.Lerp(rb.position, new Vector3(rb.position.x, rb.position.y, quickStepZdestination), quickStepLerpInterpolant);
+            }
+            else
+            {   
+                // When close to the destination of the quickstep, the player will snap into place
+                rb.position = new Vector3(rb.position.x, rb.position.y, quickStepZdestination);
+                quickStepping = false;
+            }
         }
-        else
-        {   
-            // When close to the destination of the quickstep, the player will snap into place
-            rb.position = new Vector3(rb.position.x, rb.position.y, quickStepZdestination);
-            quickStepping = false;
+
+        if (airQuickStepped && coll.onGround)
+        {
+            airQuickStepped = false;
         }
     }
 
