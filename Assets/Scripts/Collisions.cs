@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Collisions : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool onGround;
+
+
+
+    void OnCollisionEnter(Collision col)
     {
-        
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            onGround = true;
+            // jumping = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionExit(Collision col)
     {
-        
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            onGround = false;
+        }
     }
 }
