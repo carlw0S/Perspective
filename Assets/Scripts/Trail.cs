@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Trail : MonoBehaviour
 {
-    public float trailEnablingSpeed = 20.0f;
-
+    public float enablingSpeed = 25.0f;
+    public float thickeningMultiplier = 1.25f;
+    public float shrinkingMutiplier = 0.9f;
+    public float minWidthMultiplier = 0.01f;
+    public float maxWidthMultiplier = 1.0f;
 
     private Rigidbody rb;
     private TrailRenderer trail;
@@ -18,27 +21,56 @@ public class Trail : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         trail = GetComponentInChildren<TrailRenderer>();
+
         trail.enabled = false;
+        trail.widthMultiplier = minWidthMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
         rbSpeedMagnitude = rb.velocity.magnitude;
-        EnableTrail();
+        DrawTrail();
+        Debug.Log(trail.widthMultiplier);
     }
 
 
 
-    private void EnableTrail()
+    private void DrawTrail()
     {
-        if (rbSpeedMagnitude >= trailEnablingSpeed)
+        if (rbSpeedMagnitude >= enablingSpeed)
         {
-            trail.enabled = true;
+            if (!trail.enabled)
+            {
+                trail.enabled = true;
+            }
+
+            float width = trail.widthMultiplier *= thickeningMultiplier;
+            if (width < maxWidthMultiplier)
+            {
+                trail.widthMultiplier = width;
+            }
+            else
+            {
+                trail.widthMultiplier = maxWidthMultiplier;
+            }
         }
-        else if (rbSpeedMagnitude == 0)
+        else if (trail.enabled)
         {
-            trail.enabled = false;
+            if (trail.widthMultiplier <= minWidthMultiplier)
+            {
+                trail.enabled = false;
+            }
+
+            float width = trail.widthMultiplier *= shrinkingMutiplier;
+            if (width > minWidthMultiplier)
+            {
+                trail.widthMultiplier = width;
+            }
+            else
+            {
+                trail.widthMultiplier = minWidthMultiplier;
+            }
         }
     }
 }
