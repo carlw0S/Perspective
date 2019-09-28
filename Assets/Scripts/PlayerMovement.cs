@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     /* ------------------------------------------------ VARIABLES ------------------------------------------------ */
 
@@ -47,7 +47,7 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
     private Collisions coll;
     private Vector3 initialPos;
-    private Inputs inputs;
+    private PlayerInput input;
 
 
 
@@ -57,7 +57,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collisions>();
-        inputs = GetComponent<Inputs>();
+        input = GetComponent<PlayerInput>();
         initialPos = rb.position;
     }
 
@@ -96,9 +96,9 @@ public class Movement : MonoBehaviour
 
     private void JumpInput()
     {
-        if (inputs.jump && coll.onGround)
+        if (input.jump && coll.onGround)
         {
-            inputs.CleanBuffer();
+            input.CleanBuffer();
 
             doJump = true;
         }
@@ -106,17 +106,17 @@ public class Movement : MonoBehaviour
 
     private void QuickStepInput(float dist)
     {
-        if (inputs.quickStepLeft && !quickStepping && !airQuickStepped)
+        if (input.quickStepLeft && !quickStepping && !airQuickStepped)
         {
-            inputs.CleanBuffer();
+            input.CleanBuffer();
 
             airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z + dist;
         }
-        else if (inputs.quickStepRight && !quickStepping && !airQuickStepped)
+        else if (input.quickStepRight && !quickStepping && !airQuickStepped)
         {
-            inputs.CleanBuffer();
+            input.CleanBuffer();
 
             airQuickStepped = !coll.onGround;
             quickStepping = true;
@@ -138,7 +138,7 @@ public class Movement : MonoBehaviour
             jumping = true;
         }
         // The jump has a minimum duration of "shortJumpFrameDuration" frames
-        else if (!inputs.jumpHold && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)
+        else if (!input.jumpHold && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)
         {
             Vector3 v = speed;
             v.y *= jumpReleaseDecceleration;
@@ -175,7 +175,7 @@ public class Movement : MonoBehaviour
 
     private void Run()
     {
-        if (inputs.forwardHold)
+        if (input.forwardHold)
         {
             if (xSpeed < 0)     // Turn around
             {
@@ -193,7 +193,7 @@ public class Movement : MonoBehaviour
                 rb.velocity = v;
             }
         }
-        else if (inputs.backwardHold)
+        else if (input.backwardHold)
         {
             if (xSpeed > 0)     // Turn around
             {

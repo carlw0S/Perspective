@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inputs : MonoBehaviour
+public class PlayerInput : MonoBehaviour
 {
     public int bufferFrameDuration = 10;
 
