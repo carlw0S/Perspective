@@ -826,8 +826,9 @@ GameObject:
   - component: {fileID: 2131442524}
   - component: {fileID: 2131442523}
   - component: {fileID: 2131442527}
-  - component: {fileID: 2131442528}
+  - component: {fileID: 2131442531}
   - component: {fileID: 2131442529}
+  - component: {fileID: 2131442528}
   - component: {fileID: 2131442530}
   m_Layer: 0
   m_Name: Sphere
@@ -983,6 +984,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enablingSpeed: 25
   thickeningMultiplier: 2
-  shrinkingMutiplier: 0.9
-  minWidthMultiplier: 0.01
+  shrinkingMutiplier: 0.75
+  minWidthMultiplier: 0.001
   maxWidthMultiplier: 1
+--- !u!114 &2131442531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131442522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ed61999fdefa5428b71a54a22dd396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: 0
+  forwardHold: 0
+  backward: 0
+  backwardHold: 0
+  jump: 0
+  jumpHold: 0
+  quickStepLeft: 0
+  quickStepRight: 0

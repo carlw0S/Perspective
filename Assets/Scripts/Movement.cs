@@ -47,6 +47,7 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
     private Collisions coll;
     private Vector3 initialPos;
+    private Inputs inputs;
 
 
 
@@ -56,6 +57,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collisions>();
+        inputs = GetComponent<Inputs>();
         initialPos = rb.position;
     }
 
@@ -94,7 +96,7 @@ public class Movement : MonoBehaviour
 
     private void JumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && coll.onGround)
+        if (inputs.jump && coll.onGround)
         {
             jump = true;
         }
@@ -102,13 +104,13 @@ public class Movement : MonoBehaviour
 
     private void QuickStepInput(float dist)
     {
-        if (Input.GetKeyDown(KeyCode.O) && !quickStepping && !airQuickStepped)
+        if (inputs.quickStepLeft && !quickStepping && !airQuickStepped)
         {
             airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z + dist;
         }
-        else if (Input.GetKeyDown(KeyCode.P) && !quickStepping && !airQuickStepped)
+        else if (inputs.quickStepRight && !quickStepping && !airQuickStepped)
         {
             airQuickStepped = !coll.onGround;
             quickStepping = true;
@@ -130,7 +132,7 @@ public class Movement : MonoBehaviour
             jumping = true;
         }
         // The jump has a minimum duration of "shortJumpFrameDuration" frames
-        else if (!Input.GetKey(KeyCode.Space) && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)
+        else if (!inputs.jumpHold && jumping && speed.y > 0 && jumpFrameCounter >= shortJumpFrameDuration)
         {
             Vector3 v = speed;
             v.y *= jumpReleaseDecceleration;
@@ -167,7 +169,7 @@ public class Movement : MonoBehaviour
 
     private void Run()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D))
+        if (inputs.forwardHold)
         {
             if (xSpeed < 0)     // Turn around
             {
@@ -185,13 +187,13 @@ public class Movement : MonoBehaviour
                 rb.velocity = v;
             }
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
+        else if (inputs.backwardHold)
         {
             if (xSpeed > 0)     // Turn around
             {
                 rb.AddForce(Vector3.left * turnAroundAcceleration * (Mathf.Abs(xSpeed) + 1), ForceMode.Acceleration);
             }
-            else if (xSpeed > -maxRunSpeed)    // Go back
+            else if (xSpeed > -maxRunSpeed)    // Go backward
             {
                 rb.AddForce(Vector3.left * runAcceleration, ForceMode.Acceleration);
             }

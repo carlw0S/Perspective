@@ -5,9 +5,9 @@ using UnityEngine;
 public class Trail : MonoBehaviour
 {
     public float enablingSpeed = 25.0f;
-    public float thickeningMultiplier = 1.25f;
-    public float shrinkingMutiplier = 0.9f;
-    public float minWidthMultiplier = 0.01f;
+    public float thickeningMultiplier = 2.0f;
+    public float shrinkingMutiplier = 0.75f;
+    public float minWidthMultiplier = 0.001f;
     public float maxWidthMultiplier = 1.0f;
 
     private Rigidbody rb;
@@ -31,7 +31,6 @@ public class Trail : MonoBehaviour
     {
         rbSpeedMagnitude = rb.velocity.magnitude;
         DrawTrail();
-        Debug.Log(trail.widthMultiplier);
     }
 
 
