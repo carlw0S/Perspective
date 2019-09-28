@@ -29,7 +29,7 @@ public class Movement : MonoBehaviour
 
 
     [Header("Booleans")]
-    public bool jump = false;
+    public bool doJump = false;
     public bool jumping = false;
     public bool quickStepping = false;
     public bool airQuickStepped = false;
@@ -98,7 +98,9 @@ public class Movement : MonoBehaviour
     {
         if (inputs.jump && coll.onGround)
         {
-            jump = true;
+            inputs.CleanBuffer();
+
+            doJump = true;
         }
     }
 
@@ -106,12 +108,16 @@ public class Movement : MonoBehaviour
     {
         if (inputs.quickStepLeft && !quickStepping && !airQuickStepped)
         {
+            inputs.CleanBuffer();
+
             airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z + dist;
         }
         else if (inputs.quickStepRight && !quickStepping && !airQuickStepped)
         {
+            inputs.CleanBuffer();
+
             airQuickStepped = !coll.onGround;
             quickStepping = true;
             quickStepZdestination = rb.position.z - dist;
@@ -123,9 +129,9 @@ public class Movement : MonoBehaviour
         if (jumpFrameCounter < shortJumpFrameDuration)
             jumpFrameCounter++;
 
-        if (jump)
+        if (doJump)
         {
-            jump = false;
+            doJump = false;
             jumpFrameCounter = 0;
             rb.AddForce(Vector3.up * baseJumpSpeed, ForceMode.VelocityChange);
             coll.onGround = false;      // I wish I didn't have to do this, but OnCollisionExit seems to be too slow...

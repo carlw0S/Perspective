@@ -16,7 +16,6 @@ public class Trail : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,7 +25,6 @@ public class Trail : MonoBehaviour
         trail.widthMultiplier = minWidthMultiplier;
     }
 
-    // Update is called once per frame
     void Update()
     {
         rbSpeedMagnitude = rb.velocity.magnitude;
