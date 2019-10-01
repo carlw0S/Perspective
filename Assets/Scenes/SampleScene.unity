@@ -950,7 +950,7 @@ MonoBehaviour:
   quickStepDistance: 2
   quickStepLerpInterpolant: 0.25
   quickStepSnapThreshold: 0.01
-  jump: 0
+  doJump: 0
   jumping: 0
   quickStepping: 0
   airQuickStepped: 0
@@ -999,6 +999,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ed61999fdefa5428b71a54a22dd396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputType: 1
+  bufferFrameDuration: 10
+  tiltThreshold: 0.1
+  swipeMinSpeed: 2500
   forward: 0
   forwardHold: 0
   backward: 0
