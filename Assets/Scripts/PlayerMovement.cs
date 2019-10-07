@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Run Parameters")]
     public float runAcceleration = 10.0f;
     public float runDecceleration = 0.9f;
+    public float airHorizontalDecceleration = 0.99f;
     public float maxRunSpeed = 25.0f;
     public float turnAroundAcceleration = 20.0f;
     public float stopThreshold = 0.1f;
@@ -213,10 +214,17 @@ public class PlayerMovement : MonoBehaviour
         else if (Mathf.Abs(xSpeed) > stopThreshold)     // Decceleration when no input is detected
         {
             Vector3 v = speed;
-            v.x *= runDecceleration;
+            if (coll.onGround)
+            {
+                v.x *= runDecceleration;                // On the ground
+            }
+            else
+            {
+                v.x *= airHorizontalDecceleration;      // Airborne
+            }
             rb.velocity = v;
         }
-        else if (xSpeed != 0)       // Manually set speeds lower than "stopThreshold" to 0 (otherwise, it keeps getting lower, but not null)
+        else if (xSpeed != 0 && Mathf.Abs(xSpeed) < stopThreshold)       // Manually set speeds lower than "stopThreshold" to 0 (otherwise, it keeps getting lower, but not null)
         {
             Vector3 v = speed;
             v.x = 0;
